@@ -21,6 +21,25 @@ namespace Invaders
         {
             var newPos = Position;
 
+            if (Position.X > Program.ScreenW - sprite.Origin.X)
+            {
+                newPos.X = Program.ScreenW - sprite.Origin.X;
+            }
+            if (newPos.X < 0 + sprite.Origin.X)
+            {
+                newPos.X = 0 + sprite.Origin.X;
+            }
+            if (newPos.Y > Program.ScreenH - sprite.Origin.Y)
+            {
+                newPos.Y = Program.ScreenH - sprite.Origin.Y;
+            }
+            if (newPos.Y < 0 + sprite.Origin.Y)
+            {
+                newPos.Y = 0 + sprite.Origin.Y;
+            }
+
+            Position = newPos;
+
             if (Keyboard.IsKeyPressed(Keyboard.Key.Right))
             {
                 scene.TryMove(this, new Vector2f(ShipSpeed * deltaTime, 0));
@@ -40,30 +59,6 @@ namespace Invaders
             {
                 scene.TryMove(this, new Vector2f(0, ShipSpeed * deltaTime));
             }
-
-
-            if (Position.X > Program.ScreenW - sprite.Origin.X)
-            {
-                newPos.X = Program.ScreenW - sprite.Origin.X;   //Works but cant move any other direction while holding right (except diagonally)
-                sprite.Position = newPos;                       //Gets slowed down while against the edges on all others
-                    
-            }else if (newPos.X < 0 + sprite.Origin.X)
-            {
-                newPos.X = 0 + sprite.Origin.X;
-                sprite.Position = newPos;  
-
-            }else if (newPos.Y > Program.ScreenH - sprite.Origin.Y)
-            {
-                newPos.Y = Program.ScreenH - sprite.Origin.Y;
-                sprite.Position = newPos;
-
-            }else if (newPos.Y < 0 + sprite.Origin.Y)
-            {
-                newPos.Y = 0 + sprite.Origin.Y;
-                sprite.Position = newPos;
-            }
-
-            
         }
 
         public override void Render(RenderTarget target)
