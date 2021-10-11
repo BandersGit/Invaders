@@ -16,6 +16,8 @@ namespace Invaders
                 Clock clock = new Clock();
                 Scene scene = new Scene();
 
+                scene.Spawn(new Background());
+
                 while(window.IsOpen)
                 {
                     window.DispatchEvents();
