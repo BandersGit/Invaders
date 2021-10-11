@@ -8,6 +8,7 @@ namespace Invaders
     {
         private string textureName;
         protected Sprite sprite;
+        protected Vector2f size;
         public bool Dead;
 
         protected Entity(string textureName)

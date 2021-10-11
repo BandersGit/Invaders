@@ -7,9 +7,12 @@ namespace Invaders
 {
     class Program
     {
+        public const int ScreenW = 500;
+        public const int ScreenH = 700;
+
         static void Main(string[] args)
         {
-            using (var window = new RenderWindow(new VideoMode(500, 700), "Invaders"))
+            using (var window = new RenderWindow(new VideoMode(ScreenW, ScreenH), "Invaders"))
             {
                 window.Closed += (o, e) => window.Close();
 
@@ -17,6 +20,7 @@ namespace Invaders
                 Scene scene = new Scene();
 
                 scene.Spawn(new Background());
+                scene.Spawn(new Player());
 
                 while(window.IsOpen)
                 {
