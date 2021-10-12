@@ -41,6 +41,7 @@ namespace Invaders
                 {
                     scene.Events.PublishLoseHealth(1);
                 }
+                other.Dead = true;
             }
         }
 

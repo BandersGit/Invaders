@@ -75,6 +75,7 @@ namespace Invaders
                 if (entity.Dead)
                 {
                     entities.RemoveAt(i);
+                    entity.Destroy(this);
                 }else
                 i++;
             }

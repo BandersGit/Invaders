@@ -27,14 +27,18 @@ namespace Invaders
             originalPosition = Position;
         }
 
+        public override void Destroy(Scene scene)
+        {
+            scene.Spawn(new Explosion(Position));
+        }
+
         protected override void CollideWith(Scene scene, Entity other)
         {
-            //Collision with bullet and player
-            if(other is Player)
-            {
-                this.Dead = true;
-                scene.Spawn(new Explosion(Position));
-            }
+            // if (other is Bullet)
+            // {
+            //     other.Dead = true;
+            //     Dead = true;
+            // }
         }
 
         public override void Update(Scene scene, float deltaTime)

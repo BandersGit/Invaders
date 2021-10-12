@@ -35,6 +35,11 @@ namespace Invaders
             
         }
 
+        public virtual void Destroy(Scene scene)
+        {
+            
+        }
+
         protected virtual void CollideWith(Scene scene, Entity other)
         {
 
