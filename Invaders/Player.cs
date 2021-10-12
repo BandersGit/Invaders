@@ -11,8 +11,14 @@ namespace Invaders
 
         public Player() : base("spaceSheet")
         {
+            
+        }
+
+        public override void Create(Scene scene)
+        {
+            base.Create(scene);
             sprite.TextureRect = new IntRect(325, 0, 98, 75);
-            sprite.Origin = new Vector2f(98f / 2, 75f / 2);
+            sprite.Origin = new Vector2f(sprite.TextureRect.Width / 2, sprite.TextureRect.Height / 2);
             Position = new Vector2f(125, 350);
             size = new Vector2f(sprite.GetGlobalBounds().Width, sprite.GetGlobalBounds().Height);
         }
@@ -20,8 +26,8 @@ namespace Invaders
         public override void Update(Scene scene, float deltaTime)
         {
             var newPos = Position;
-
-            if (Position.X > Program.ScreenW - sprite.Origin.X)
+            //Side borders
+            if (Position.X > Program.ScreenW - sprite.Origin.X) //Removed elses to fix border collision bugs
             {
                 newPos.X = Program.ScreenW - sprite.Origin.X;
             }
@@ -29,6 +35,8 @@ namespace Invaders
             {
                 newPos.X = 0 + sprite.Origin.X;
             }
+
+            //Upper and lower borders
             if (newPos.Y > Program.ScreenH - sprite.Origin.Y)
             {
                 newPos.Y = Program.ScreenH - sprite.Origin.Y;
