@@ -6,15 +6,16 @@ namespace Invaders
 {
     public class Enemy : Entity
     {
-        public Vector2f direction = new Vector2f(1, 1) / MathF.Sqrt(2.0f);
+        private Vector2f direction = new Vector2f(1, 1) / MathF.Sqrt(2.0f);
         private const float ShipSpeed = 300.0f;
+        private Vector2f originalPosition;
 
         public Enemy() : base("spaceSheet")
         {
 
         }
 
-        public override bool Solid => true;
+        protected override bool Solid => true;
 
         public override void Create(Scene scene)
         {
@@ -23,14 +24,16 @@ namespace Invaders
             sprite.Origin = new Vector2f(sprite.TextureRect.Width/2 , sprite.TextureRect.Height/2);
             sprite.Scale = new Vector2f (0.7f, 0.7f);
             sprite.Rotation = ((180 / MathF.PI) * MathF.Atan2(direction.Y, direction.X)) + -90;
+            originalPosition = Position;
         }
 
         protected override void CollideWith(Scene scene, Entity other)
         {
-            //Collision with bullet
-            if(other is Enemy)
+            //Collision with bullet and player
+            if(other is Player)
             {
-                
+                this.Dead = true;
+                scene.Spawn(new Explosion());
             }
         }
 
@@ -42,26 +45,28 @@ namespace Invaders
             if (newPos.X > Program.ScreenW - sprite.Origin.X)
             {
                 newPos.X = Program.ScreenW - sprite.Origin.X;
-                Reflect(new Vector2f(-1,0));
+                Reflect(new Vector2f(-1, 0));
             }
             else if (newPos.X < 0 + sprite.Origin.X)
             {
                 newPos.X = 0 + sprite.Origin.X;
-                Reflect(new Vector2f(1,0));
-            }
-            else if (newPos.Y > Program.ScreenH - sprite.Origin.X)
-            {
-                newPos.Y = Program.ScreenH - sprite.Origin.X;
-                Reflect(new Vector2f(0,-1));
-
+                Reflect(new Vector2f(1, 0));
             }
             else if (newPos.Y < 0 + sprite.Origin.X)
             {
                 newPos.Y = 0 + sprite.Origin.X;
-                Reflect(new Vector2f(0,1));
+                Reflect(new Vector2f(0, 1));
             }
 
-            Position = newPos;
+            if (newPos.Y > Program.ScreenH + sprite.Origin.X) //Moves the enemy up if it exits the bottom
+            {
+                Position = originalPosition;
+
+            }else
+            {
+                Position = newPos;
+            }
+            
             base.Update(scene, deltaTime);
         }
 

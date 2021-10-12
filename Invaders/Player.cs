@@ -8,7 +8,7 @@ namespace Invaders
     public class Player : Entity
     {
         private const float shipSpeed = 500.0f;
-        protected float invincTimer;
+        private float invincTimer;
         
 
         public Player() : base("spaceSheet")
@@ -16,7 +16,7 @@ namespace Invaders
             
         }
 
-        public override bool Solid => true;
+        protected override bool Solid => true;
 
         public override void Create(Scene scene)
         {
@@ -75,7 +75,7 @@ namespace Invaders
         {
             if (invincTimer > 0.0f)
             {
-                sprite.Color = new Color(0, 0, 0, 127);
+                sprite.Color = new Color(255, 255, 255, 127);
             }else
             {
                 sprite.Color = new Color(255, 255, 255, 255);
