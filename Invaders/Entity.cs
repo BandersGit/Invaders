@@ -32,9 +32,17 @@ namespace Invaders
             sprite.Texture = scene.Assets.LoadTexture(textureName);
         }
 
-        public virtual void Update(Scene scene, float deltaTime)
+        protected virtual void CollideWith(Scene scene, Entity other)
         {
 
+        }
+
+        public virtual void Update(Scene scene, float deltaTime)
+        {
+            foreach(Entity found in scene.FindInstersects(Bounds))
+            {
+                CollideWith(scene, found);
+            }
         }
 
         public virtual void Render(RenderTarget target)

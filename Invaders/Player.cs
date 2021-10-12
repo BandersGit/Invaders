@@ -21,6 +21,13 @@ namespace Invaders
             sprite.Origin = new Vector2f(sprite.TextureRect.Width / 2, sprite.TextureRect.Height / 2);
             Position = new Vector2f(125, 350);
             size = new Vector2f(sprite.GetGlobalBounds().Width, sprite.GetGlobalBounds().Height);
+            scene.Events.LoseHealth += OnLoseHealth;
+        }
+
+        private void OnLoseHealth(Scene scene, int amount)
+        {
+            //Loss of health gets handled in GUI
+            //Implement I-frames here
         }
 
         public override void Update(Scene scene, float deltaTime)

@@ -11,11 +11,13 @@ namespace Invaders
     {
         private List<Entity> entities;
         public readonly AssetManager Assets;
+        public readonly EventManager Events;
 
         public Scene()
         {
             entities = new List<Entity>();
             Assets = new AssetManager();
+            Events = new EventManager();
         }
 
         public void Spawn(Entity entity)
@@ -48,6 +50,38 @@ namespace Invaders
             return collided;
         }
 
+        public IEnumerable<Entity> FindInstersects(FloatRect bounds)
+        {
+            int lastEntity = entities.Count - 1;
+
+            for (int i = lastEntity; i >= 0; i--)
+            {
+                Entity entity = entities[i];
+
+                if (entity.Dead) continue;
+
+                if (entity.Bounds.Intersects(bounds))
+                {
+                    yield return entity;
+                }
+            }
+        }
+
+        public bool FindByType<T>(out T found) where T : Entity
+        {
+            foreach (Entity entity in entities)
+            {
+                if (entity is T typed && !entity.Dead)
+                {
+                    found = typed;
+                    return true;
+                }
+            }
+
+            found = default(T);
+            return false;
+        }
+
         public void UpdateAll(float deltaTime)
         {
             for (int i = entities.Count - 1; i >= 0; i--)
@@ -55,6 +89,8 @@ namespace Invaders
                 Entity entity = entities[i];
                 entity.Update(this, deltaTime);
             }
+
+            Events.HandleEvents(this);
 
             for (int i = 0; i < entities.Count;)
             {

@@ -23,6 +23,15 @@ namespace Invaders
             sprite.Rotation = ((180 / MathF.PI) * MathF.Atan2(direction.Y, direction.X)) + -90;
         }
 
+        protected override void CollideWith(Scene scene, Entity other)
+        {
+            if(other is Player)
+            {
+                scene.Events.PublishLoseHealth(1);
+            }
+        }
+
+
         public override void Update(Scene scene, float deltaTime)
         {
             var newPos = Position;
@@ -51,6 +60,7 @@ namespace Invaders
             }
 
             Position = newPos;
+            base.Update(scene, deltaTime);
         }
 
         private void Reflect(Vector2f normal)
