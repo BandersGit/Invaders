@@ -9,6 +9,7 @@ namespace Invaders
     {
         private const float shipSpeed = 500.0f;
         protected float invincTimer;
+        
 
         public Player() : base("spaceSheet")
         {
@@ -29,9 +30,6 @@ namespace Invaders
 
         private void OnLoseHealth(Scene scene, int amount)
         {
-            //Loss of health gets handled in GUI
-            
-            System.Console.WriteLine("HIT");
             invincTimer = 3.0f;
         }
 
@@ -43,8 +41,6 @@ namespace Invaders
                 {
                     scene.Events.PublishLoseHealth(1);
                 }
-
-                invincTimer = 0.0f;
             }
         }
 
@@ -52,58 +48,39 @@ namespace Invaders
         {
             var newPos = Position;
             //Side borders
-            if (Position.X > Program.ScreenW - sprite.Origin.X) //Removed elses to fix border collision bugs
-            {
-                newPos.X = Program.ScreenW - sprite.Origin.X;
-            }
-            if (newPos.X < 0 + sprite.Origin.X)
-            {
-                newPos.X = 0 + sprite.Origin.X;
-            }
+            if (Position.X > Program.ScreenW - sprite.Origin.X) newPos.X = Program.ScreenW - sprite.Origin.X; //Removed elses to fix border collision bugs
+            
+            if (newPos.X < 0 + sprite.Origin.X) newPos.X = 0 + sprite.Origin.X;
 
             //Upper and lower borders
-            if (newPos.Y > Program.ScreenH - sprite.Origin.Y)
-            {
-                newPos.Y = Program.ScreenH - sprite.Origin.Y;
-            }
-            if (newPos.Y < 0 + sprite.Origin.Y)
-            {
-                newPos.Y = 0 + sprite.Origin.Y;
-            }
-
+            if (newPos.Y > Program.ScreenH - sprite.Origin.Y) newPos.Y = Program.ScreenH - sprite.Origin.Y;
+            
+            if (newPos.Y < 0 + sprite.Origin.Y) newPos.Y = 0 + sprite.Origin.Y;
+            
             Position = newPos;
 
-            if (Keyboard.IsKeyPressed(Keyboard.Key.Right))
-            {
-                Position += new Vector2f(1, 0) * shipSpeed * deltaTime;
-            }
+            if (Keyboard.IsKeyPressed(Keyboard.Key.Right)) Position += new Vector2f(1, 0) * shipSpeed * deltaTime;
 
-            if (Keyboard.IsKeyPressed(Keyboard.Key.Left))
-            {
-                Position += new Vector2f(-1, 0) * shipSpeed * deltaTime;
-            }
+            if (Keyboard.IsKeyPressed(Keyboard.Key.Left)) Position += new Vector2f(-1, 0) * shipSpeed * deltaTime;
+            
+            if (Keyboard.IsKeyPressed(Keyboard.Key.Up)) Position += new Vector2f(0, -1) * shipSpeed * deltaTime;
 
-            if (Keyboard.IsKeyPressed(Keyboard.Key.Up))
-            {
-                Position += new Vector2f(0, -1) * shipSpeed * deltaTime;
-            }
-
-            if (Keyboard.IsKeyPressed(Keyboard.Key.Down))
-            {
-                Position += new Vector2f(0, 1) * shipSpeed * deltaTime;
-            }
-
-
-            base.Update(scene, deltaTime);
+            if (Keyboard.IsKeyPressed(Keyboard.Key.Down)) Position += new Vector2f(0, 1) * shipSpeed * deltaTime;
+            
             invincTimer = MathF.Max(invincTimer - deltaTime, 0.0f);
+            base.Update(scene, deltaTime);
         }
 
         public override void Render(RenderTarget target)
         {
             if (invincTimer > 0.0f)
             {
-                System.Console.WriteLine(invincTimer);
+                sprite.Color = new Color(0, 0, 0, 127);
+            }else
+            {
+                sprite.Color = new Color(255, 255, 255, 255);
             }
+
             base.Render(target);
         }
     }
