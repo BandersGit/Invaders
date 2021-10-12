@@ -7,14 +7,17 @@ namespace Invaders
     public class Explosion : Entity
     {
         private float existTimer;
-        public Explosion() : base("deathExplosion")
+
+        public Explosion(Vector2f Position) : base("deathExplosion")
         {
-            
+            this.Position = Position;
         }
 
-        public override void Create(Scene scene) //Find a way to get the position of the dead ship
+        public override void Create(Scene scene)
         {
             base.Create(scene);
+            sprite.Scale = new Vector2f (0.5f, 0.5f);
+            sprite.Origin = new Vector2f(sprite.TextureRect.Width / 2, sprite.TextureRect.Height / 2);
             existTimer = 3.0f;
         }
 
@@ -23,7 +26,7 @@ namespace Invaders
             base.Update(scene, deltaTime);
             existTimer = MathF.Max(existTimer - deltaTime, 0.0f);
 
-            if (existTimer > 0.0f)
+            if (existTimer <= 0.0f)
             {
                 Dead = true;
             }
@@ -31,6 +34,7 @@ namespace Invaders
 
         public override void Render(RenderTarget target)
         {
+            sprite.Color = new Color(255, 255, 255 /*fadeOut*/);
             base.Render(target);
         }
 

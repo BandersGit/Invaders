@@ -33,7 +33,7 @@ namespace Invaders
             if(other is Player)
             {
                 this.Dead = true;
-                scene.Spawn(new Explosion());
+                scene.Spawn(new Explosion(Position));
             }
         }
 
