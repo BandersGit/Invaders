@@ -7,12 +7,15 @@ namespace Invaders
 {
     public class Player : Entity
     {
-        private const float ShipSpeed = 500.0f;
+        private const float shipSpeed = 500.0f;
+        protected float invincTimer;
 
         public Player() : base("spaceSheet")
         {
             
         }
+
+        public override bool Solid => true;
 
         public override void Create(Scene scene)
         {
@@ -27,7 +30,22 @@ namespace Invaders
         private void OnLoseHealth(Scene scene, int amount)
         {
             //Loss of health gets handled in GUI
-            //Implement I-frames here
+            
+            System.Console.WriteLine("HIT");
+            invincTimer = 3.0f;
+        }
+
+        protected override void CollideWith(Scene scene, Entity other)
+        {
+            if(other is Enemy)
+            {
+                if (invincTimer <= 0.0f)
+                {
+                    scene.Events.PublishLoseHealth(1);
+                }
+
+                invincTimer = 0.0f;
+            }
         }
 
         public override void Update(Scene scene, float deltaTime)
@@ -57,27 +75,35 @@ namespace Invaders
 
             if (Keyboard.IsKeyPressed(Keyboard.Key.Right))
             {
-                scene.TryMove(this, new Vector2f(ShipSpeed * deltaTime, 0));
+                Position += new Vector2f(1, 0) * shipSpeed * deltaTime;
             }
 
             if (Keyboard.IsKeyPressed(Keyboard.Key.Left))
             {
-                scene.TryMove(this, new Vector2f(-ShipSpeed * deltaTime, 0));
+                Position += new Vector2f(-1, 0) * shipSpeed * deltaTime;
             }
 
             if (Keyboard.IsKeyPressed(Keyboard.Key.Up))
             {
-                scene.TryMove(this, new Vector2f(0, -ShipSpeed * deltaTime));
+                Position += new Vector2f(0, -1) * shipSpeed * deltaTime;
             }
 
             if (Keyboard.IsKeyPressed(Keyboard.Key.Down))
             {
-                scene.TryMove(this, new Vector2f(0, ShipSpeed * deltaTime));
+                Position += new Vector2f(0, 1) * shipSpeed * deltaTime;
             }
+
+
+            base.Update(scene, deltaTime);
+            invincTimer = MathF.Max(invincTimer - deltaTime, 0.0f);
         }
 
         public override void Render(RenderTarget target)
         {
+            if (invincTimer > 0.0f)
+            {
+                System.Console.WriteLine(invincTimer);
+            }
             base.Render(target);
         }
     }

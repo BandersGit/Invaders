@@ -14,6 +14,8 @@ namespace Invaders
 
         }
 
+        public override bool Solid => true;
+
         public override void Create(Scene scene)
         {
             base.Create(scene);
@@ -25,12 +27,12 @@ namespace Invaders
 
         protected override void CollideWith(Scene scene, Entity other)
         {
-            if(other is Player)
+            //Collision with bullet
+            if(other is Enemy)
             {
-                scene.Events.PublishLoseHealth(1);
+                
             }
         }
-
 
         public override void Update(Scene scene, float deltaTime)
         {
