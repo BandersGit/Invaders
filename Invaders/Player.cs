@@ -42,19 +42,18 @@ namespace Invaders
             {
                 if (bullet.ShotOrigin != this)
                 {
-                    other.Dead = true;
                     if (invincTimer <= 0.0f)
                     {
+                        other.Dead = true;
                         scene.Events.PublishLoseHealth(1);
                     }
                 }
 
             }else if (other is Enemy)
             {
-                other.Dead = true;
-                
                 if (invincTimer <= 0.0f)
                 {
+                    other.Dead = true;
                     scene.Events.PublishLoseHealth(1);
                 }
             }

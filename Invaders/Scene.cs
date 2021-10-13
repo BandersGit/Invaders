@@ -43,21 +43,6 @@ namespace Invaders
             }
         }
 
-        public bool FindByType<T>(out T found) where T : Entity
-        {
-            foreach (Entity entity in entities)
-            {
-                if (entity is T typed && !entity.Dead)
-                {
-                    found = typed;
-                    return true;
-                }
-            }
-
-            found = default(T);
-            return false;
-        }
-
         public void UpdateAll(float deltaTime)
         {
             for (int i = entities.Count - 1; i >= 0; i--)

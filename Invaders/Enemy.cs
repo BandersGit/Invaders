@@ -9,6 +9,9 @@ namespace Invaders
         private Vector2f direction = new Vector2f(1, 1) / MathF.Sqrt(2.0f);
         private const float shipSpeed = 300.0f;
         private Vector2f originalPosition;
+        private Random bulletSpawnRate;
+        private float fireRate = 0.5f;
+        private float fireRateTimer = 0.0f;
 
         public Enemy() : base("spaceSheet")
         {
@@ -25,6 +28,7 @@ namespace Invaders
             sprite.Scale = new Vector2f (0.7f, 0.7f);
             sprite.Rotation = ((180 / MathF.PI) * MathF.Atan2(direction.Y, direction.X)) + -90;
             originalPosition = Position;
+            bulletSpawnRate = new Random();
         }
 
         public override void Destroy(Scene scene)
@@ -46,6 +50,15 @@ namespace Invaders
 
         public override void Update(Scene scene, float deltaTime)
         {
+            int spawnBullet = bulletSpawnRate.Next(2000);
+            fireRateTimer += deltaTime;
+
+            if (spawnBullet == 0 && fireRateTimer > fireRate)
+            {
+                scene.Spawn(new Bullet(direction, this){Position = (this.Position + (direction * 50)) });
+                fireRateTimer = 0.0f;
+            }
+        
             var newPos = Position;
             newPos += direction * deltaTime * shipSpeed;
             
