@@ -9,6 +9,9 @@ namespace Invaders
     {
         private const float shipSpeed = 500.0f;
         private float invincTimer;
+        private float fireRate = 0.2f;
+        private float fireRateTimer = 0;
+        
         
 
         public Player() : base("spaceSheet")
@@ -35,19 +38,44 @@ namespace Invaders
 
         protected override void CollideWith(Scene scene, Entity other)
         {
-            if(other is Enemy)
+            if(other is Bullet bullet)
             {
+                if (bullet.ShotOrigin != this)
+                {
+                    other.Dead = true;
+                    if (invincTimer <= 0.0f)
+                    {
+                        scene.Events.PublishLoseHealth(1);
+                    }
+                }
+
+            }else if (other is Enemy)
+            {
+                other.Dead = true;
+                
                 if (invincTimer <= 0.0f)
                 {
                     scene.Events.PublishLoseHealth(1);
                 }
-                other.Dead = true;
             }
         }
 
         public override void Update(Scene scene, float deltaTime)
         {
             var newPos = Position;
+
+            fireRateTimer += deltaTime;
+
+            invincTimer = MathF.Max(invincTimer - deltaTime, 0.0f);
+
+            if (invincTimer > 0.0f)
+            {
+                sprite.Color = new Color(255, 255, 255, 127);
+            }else
+            {
+                sprite.Color = new Color(255, 255, 255, 255);
+            }
+
             //Side borders
             if (Position.X > Program.ScreenW - sprite.Origin.X) newPos.X = Program.ScreenW - sprite.Origin.X; //Removed elses to fix border collision bugs
             
@@ -67,21 +95,24 @@ namespace Invaders
             if (Keyboard.IsKeyPressed(Keyboard.Key.Up)) Position += new Vector2f(0, -1) * shipSpeed * deltaTime;
 
             if (Keyboard.IsKeyPressed(Keyboard.Key.Down)) Position += new Vector2f(0, 1) * shipSpeed * deltaTime;
+
+
+            if (Keyboard.IsKeyPressed(Keyboard.Key.Space) && fireRateTimer > fireRate)
+            {
+                scene.Spawn(new Bullet(new Vector2f(0, -1), this)
+                {
+                    Position = this.Position - new Vector2f(0, this.sprite.Origin.Y)
+                }); 
+                
+                fireRateTimer = 0;
+            } 
             
-            invincTimer = MathF.Max(invincTimer - deltaTime, 0.0f);
+            
             base.Update(scene, deltaTime);
         }
 
         public override void Render(RenderTarget target)
         {
-            if (invincTimer > 0.0f)
-            {
-                sprite.Color = new Color(255, 255, 255, 127);
-            }else
-            {
-                sprite.Color = new Color(255, 255, 255, 255);
-            }
-
             base.Render(target);
         }
     }

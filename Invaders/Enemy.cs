@@ -7,7 +7,7 @@ namespace Invaders
     public class Enemy : Entity
     {
         private Vector2f direction = new Vector2f(1, 1) / MathF.Sqrt(2.0f);
-        private const float ShipSpeed = 300.0f;
+        private const float shipSpeed = 300.0f;
         private Vector2f originalPosition;
 
         public Enemy() : base("spaceSheet")
@@ -34,17 +34,20 @@ namespace Invaders
 
         protected override void CollideWith(Scene scene, Entity other)
         {
-            // if (other is Bullet)
-            // {
-            //     other.Dead = true;
-            //     Dead = true;
-            // }
+            if (other is Bullet bullet)
+            {
+                if (bullet.ShotOrigin is Player)
+                {
+                    other.Dead = true;
+                    Dead = true;
+                }
+            }
         }
 
         public override void Update(Scene scene, float deltaTime)
         {
             var newPos = Position;
-            newPos += direction * deltaTime * ShipSpeed;
+            newPos += direction * deltaTime * shipSpeed;
             
             if (newPos.X > Program.ScreenW - sprite.Origin.X)
             {
