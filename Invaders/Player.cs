@@ -9,7 +9,7 @@ namespace Invaders
     {
         private const float shipSpeed = 500.0f;
         private float invincTimer;
-        private float fireRate = 0.2f;
+        private float fireRate = 0.5f;
         private float fireRateTimer = 0;
         
         

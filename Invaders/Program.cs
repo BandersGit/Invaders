@@ -21,7 +21,7 @@ namespace Invaders
 
                 scene.Spawn(new Background());
                 scene.Spawn(new Player());
-                scene.Spawn(new Enemy());
+                scene.Spawn(new ShipSpawner());
 
                 while(window.IsOpen)
                 {
