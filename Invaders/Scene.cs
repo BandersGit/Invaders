@@ -11,19 +11,37 @@ namespace Invaders
     {
         private List<Entity> entities;
         public readonly AssetManager Assets;
+        public readonly SceneManager Reloader;
         public readonly EventManager Events;
+        public bool Reload = false;
 
         public Scene()
         {
             entities = new List<Entity>();
             Assets = new AssetManager();
             Events = new EventManager();
+            Reloader = new SceneManager();
+
+            Spawn(new Background());
+            Spawn(new Player());
+            Spawn(new GUI());
+            Spawn(new ShipSpawner());
         }
 
         public void Spawn(Entity entity)
         {
             entities.Add(entity);
             entity.Create(this);
+        }
+
+        public void Clear()
+        {
+            for (int i = entities.Count - 1; i >= 0; i--)
+            {
+                Entity entity = entities[i];
+                entities.RemoveAt(i);
+                entity.Destroy(this);
+            }
         }
 
         public IEnumerable<Entity> FindInstersects(FloatRect bounds)
@@ -45,6 +63,8 @@ namespace Invaders
 
         public void UpdateAll(float deltaTime)
         {
+            Reloader.HandleSceneReload(this);
+
             for (int i = entities.Count - 1; i >= 0; i--)
             {
                 Entity entity = entities[i];

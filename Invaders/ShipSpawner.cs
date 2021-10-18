@@ -6,7 +6,7 @@ namespace Invaders
 {
     public class ShipSpawner : Entity
     {
-        private Random enemySpawn;
+        private Random enemySpawnRate;
         private float enemySpawnRateTimer = 4000;
         private float enemyRateCap = 1.0f;
         private float enemyRateCapTimer = 0.0f;
@@ -18,7 +18,7 @@ namespace Invaders
 
         public override void Create(Scene scene)
         {
-            enemySpawn = new Random();
+            enemySpawnRate = new Random();
         }
 
         public override void Update(Scene scene, float deltaTime)
@@ -28,11 +28,11 @@ namespace Invaders
 
             if (enemySpawnRateTimer <= 2000) enemySpawnRateTimer = 2000;
             
-            int spawnEnemy = enemySpawn.Next((int) enemySpawnRateTimer);
+            int spawnEnemy = enemySpawnRate.Next((int) enemySpawnRateTimer);
 
             if (spawnEnemy == 0 && enemyRateCapTimer > enemyRateCap)
             {
-                int spawnLocation = enemySpawn.Next(3);
+                int spawnLocation = enemySpawnRate.Next(3);
 
                 if (spawnLocation == 0)
                 {

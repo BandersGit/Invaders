@@ -11,8 +11,6 @@ namespace Invaders
         private float invincTimer;
         private float fireRate = 0.5f;
         private float fireRateTimer = 0;
-        
-        
 
         public Player() : base("spaceSheet")
         {
@@ -26,7 +24,7 @@ namespace Invaders
             base.Create(scene);
             sprite.TextureRect = new IntRect(325, 0, 98, 75);
             sprite.Origin = new Vector2f(sprite.TextureRect.Width / 2, sprite.TextureRect.Height / 2);
-            Position = new Vector2f(125, 350);
+            Position = new Vector2f(Program.ScreenW / 2, Program.ScreenH - 100);
             size = new Vector2f(sprite.GetGlobalBounds().Width, sprite.GetGlobalBounds().Height);
             scene.Events.LoseHealth += OnLoseHealth;
         }
