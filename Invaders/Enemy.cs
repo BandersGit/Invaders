@@ -42,6 +42,7 @@ namespace Invaders
             {
                 if (bullet.ShotOrigin is Player)
                 {
+                    //scene.Events.PublishGainScore(50);
                     other.Dead = true;
                     Dead = true;
                 }

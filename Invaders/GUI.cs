@@ -26,13 +26,13 @@ namespace Invaders
             scoreText.FillColor = Color.White;
             currentHealth = maxHealth;
             scene.Events.LoseHealth += OnLoseHealth;//Runs these local methods when the subscribed events happen
-            //scene.Events.GainScore += OnGainScore;
+            scene.Events.GainScore += OnGainScore;  //
         }
 
         public override void Destroy(Scene scene)
         {
             scene.Events.LoseHealth -= OnLoseHealth;
-            //scene.Events.GainScore -= OnGainScore;
+            scene.Events.GainScore -= OnGainScore;
         }
 
         private void OnLoseHealth(Scene scene, int amount)
@@ -42,6 +42,12 @@ namespace Invaders
             {
                 scene.Reload = true;
             }
+        }
+
+        private void OnGainScore(Scene scene, int amount)
+        {
+            currentScore += amount;
+            scoreText.DisplayedString = $"Score: {currentScore}";
         }
 
         public override void Render(RenderTarget target)

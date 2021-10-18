@@ -11,6 +11,7 @@ namespace Invaders
         private float invincTimer;
         private float fireRate = 0.5f;
         private float fireRateTimer = 0;
+        private float scoreTimer;
 
         public Player() : base("spaceSheet")
         {
@@ -32,6 +33,11 @@ namespace Invaders
         private void OnLoseHealth(Scene scene, int amount)
         {
             invincTimer = 3.0f;
+        }
+
+        public override void Destroy(Scene scene)
+        {
+            scene.Events.LoseHealth -= OnLoseHealth;
         }
 
         protected override void CollideWith(Scene scene, Entity other)
@@ -71,6 +77,13 @@ namespace Invaders
             }else
             {
                 sprite.Color = new Color(255, 255, 255, 255);
+            }
+
+            scoreTimer += deltaTime;
+            if (scoreTimer >= 1)
+            {
+                scene.Events.PublishGainScore((int) scoreTimer);
+                scoreTimer -= (int) scoreTimer;
             }
 
             //Side borders
