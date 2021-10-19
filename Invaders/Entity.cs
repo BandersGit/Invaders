@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Invaders
 {
-    public class Entity
+    public abstract class Entity
     {
         private string textureName;
         protected Sprite sprite;
@@ -31,7 +31,6 @@ namespace Invaders
         public virtual void Create(Scene scene)
         {
             sprite.Texture = scene.Assets.LoadTexture(textureName);
-            
         }
 
         public virtual void Destroy(Scene scene)
@@ -43,8 +42,6 @@ namespace Invaders
         {
 
         }
-
-        
 
         public virtual void Update(Scene scene, float deltaTime)
         {
