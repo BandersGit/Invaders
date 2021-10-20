@@ -1,9 +1,6 @@
-using System.Text;
-using System.Collections.Generic;
 using System;
-using SFML.System;
+using System.Collections.Generic;
 using SFML.Graphics;
-using System.IO;
 
 namespace Invaders
 {

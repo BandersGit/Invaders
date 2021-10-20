@@ -49,6 +49,12 @@ namespace Invaders
             }
         }
 
+        private void Reflect(Vector2f normal)
+        {
+            direction -= normal * (2 * (direction.X * normal.X + direction.Y * normal.Y));
+            sprite.Rotation = ((180 / MathF.PI) * MathF.Atan2(direction.Y, direction.X)) + -90;
+        }
+
         public override void Update(Scene scene, float deltaTime)
         {
             int spawnBullet = bulletSpawnRate.Next(2000);
@@ -89,12 +95,6 @@ namespace Invaders
             }
             
             base.Update(scene, deltaTime);
-        }
-
-        private void Reflect(Vector2f normal)
-        {
-            direction -= normal * (2 * (direction.X * normal.X + direction.Y * normal.Y));
-            sprite.Rotation = ((180 / MathF.PI) * MathF.Atan2(direction.Y, direction.X)) + -90;
         }
 
         public override void Render(RenderTarget target)

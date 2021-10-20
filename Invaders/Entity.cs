@@ -33,7 +33,7 @@ namespace Invaders
             sprite.Texture = scene.Assets.LoadTexture(textureName);
         }
 
-        public virtual void Destroy(Scene scene)
+        public virtual void Destroy(Scene scene)  //Could be an interface with changes to scenes entity deletion handling
         {
             
         }

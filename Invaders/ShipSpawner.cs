@@ -1,6 +1,5 @@
 using System;
 using SFML.System;
-using SFML.Graphics;
 
 namespace Invaders
 {
