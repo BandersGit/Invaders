@@ -10,6 +10,7 @@ namespace Invaders
         public readonly AssetManager Assets;
         public readonly SceneManager Reloader;
         public readonly EventManager Events;
+        //SoundManager
         public bool Reload = false;
 
         public Scene()

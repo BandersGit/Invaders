@@ -13,12 +13,13 @@ namespace Invaders
         
         public GUI() : base("fullHeart")
         {
-            scoreText =  new Text();
+            
         }
 
         public override void Create(Scene scene)
         {
             base.Create(scene);
+            scoreText =  new Text();
             scoreText.Font = scene.Assets.LoadFont("future_thin");
             scoreText.DisplayedString = $"Score: {currentScore}";
             sprite.Origin = new Vector2f(sprite.TextureRect.Width / 2, sprite.TextureRect.Height / 2);
