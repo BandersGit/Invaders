@@ -41,7 +41,7 @@ namespace Invaders
             currentHealth -= amount;
             if (currentHealth <= 0)
             {
-                scene.Reload = true;
+                scene.Reload = true; //Could be an event publisher instead? For less coupling and more control over who can reload the scene
             }
         }
 

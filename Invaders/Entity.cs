@@ -38,7 +38,7 @@ namespace Invaders
             
         }
 
-        protected virtual void CollideWith(Scene scene, Entity other)
+        protected virtual void CollideWith(Scene scene, Entity other) //Could also be an interface?
         {
 
         }
